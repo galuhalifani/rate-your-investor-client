@@ -4,7 +4,7 @@ import axios from 'axios'
 import router from '../router'
 import swal from 'sweetalert'
 // const rootUrl = 'http://localhost:3000'
-const rootUrl = 'https://rate-your-investor.herokuapp.com'
+const rootUrl = 'https://rate-your-investor-61b861e104fb.herokuapp.com'
 
 Vue.use(Vuex)
 
@@ -16,7 +16,6 @@ export default new Vuex.Store({
     isAdmin: false,
     login: false,
     home: true,
-    loading: false,
     user: {
       name: '',
       fullname: '',
@@ -48,7 +47,7 @@ export default new Vuex.Store({
       state.user.email = localStorage.email
       state.user.profilePic = localStorage.profilePic
       state.user.active_status = localStorage.active_status
-      if (localStorage.admin_status == 'true') {
+      if (localStorage.admin_status === 'true') {
         state.isAdmin = true
       } else {
         state.isAdmin = false
@@ -72,9 +71,6 @@ export default new Vuex.Store({
     },
     HIDEHOME (state) {
       state.home = false
-    },
-    TOGGLELOADER (state, payload) {
-      state.loading = payload
     },
     ADMINTOGGLE (state, payload) {
       state.admin = payload
@@ -112,23 +108,23 @@ export default new Vuex.Store({
       state.review.likes = payload.likes
       state.review.likes_id = payload.likes_id
     },
-    VERIFYTOGGLE(state, payload) {
+    VERIFYTOGGLE (state, payload) {
       state.verify = true
     }
   },
   actions: {
     googlelogin ({ commit }, payload) {
-      const id_token = payload
+      const idToken = payload
 
       axios({
         url: `${rootUrl}/googlelogin`,
         method: 'post',
         data: {
-          id_token
+          idToken
         }
       })
         .then(data => {
-          let founder = data.data.user
+          const founder = data.data.user
           localStorage.setItem('accessToken', data.data.accessToken)
           localStorage.setItem('id', founder.id)
           localStorage.setItem('first_name', founder.first_name)
@@ -187,7 +183,7 @@ export default new Vuex.Store({
           commit('ISLOGGEDIN', true)
           commit('TOGGLELOADER', false)
 
-          if (localStorage.admin_status == true) {
+          if (localStorage.admin_status === true) {
             commit('ADMINTOGGLE', true)
           }
 
@@ -245,7 +241,6 @@ export default new Vuex.Store({
       })
         .then(review => {
           commit('TOGGLELOADER', false)
-        // console.log('DONE PULL')
           commit('FETCHREVIEW', review.data)
         })
         .catch(err => {
@@ -301,36 +296,36 @@ export default new Vuex.Store({
           Vue.$toast.error(err.response.data.message)
         })
     },
-    register ({commit}, payload) {
-      const first_name = payload.first_name
-      const last_name = payload.last_name
+    register ({ commit }, payload) {
+      const firstName = payload.first_name
+      const lastName = payload.last_name
       const username = payload.username
       const email = payload.email
       const password = payload.password
       const phoneNumber = payload.phoneNumber
-      const company_name = payload.company_name
-      const company_website = payload.company_website
+      const companyName = payload.company_name
+      const companyWebsite = payload.company_website
       const role = payload.role
       const region = payload.region
-      const linkedin_url = payload.linkedin_url
-      const company_industry = payload.company_industry
-      const team_size = payload.team_size
+      const linkedinUrl = payload.linkedin_url
+      const companyIndustry = payload.company_industry
+      const teamSize = payload.team_size
       const profilePic = payload.profilePic
 
       const user = new FormData()
-      user.append('first_name', first_name)
-      user.append('last_name', last_name)
+      user.append('first_name', firstName)
+      user.append('last_name', lastName)
       user.append('username', username)
       user.append('email', email)
       user.append('password', password)
       user.append('phoneNumber', phoneNumber)
-      user.append('company_name', company_name)
-      user.append('company_website', company_website)
+      user.append('company_name', companyName)
+      user.append('company_website', companyWebsite)
       user.append('role', role)
       user.append('region', region)
-      user.append('linkedin_url', linkedin_url)
-      user.append('company_industry', company_industry)
-      user.append('team_size', team_size)
+      user.append('linkedin_url', linkedinUrl)
+      user.append('company_industry', companyIndustry)
+      user.append('team_size', teamSize)
       user.append('profilePic', profilePic)
 
       commit('TOGGLELOADER', true)
@@ -406,7 +401,6 @@ export default new Vuex.Store({
       })
         .then(data => {
           commit('TOGGLELOADER', false)
-        // console.log(data.data)
           swal('Success', 'You have added a new review', 'success')
           router.push({ path: '/' })
         })

@@ -4,7 +4,6 @@
     <Navbar v-if='!login'/>
     <!-- <HomepageBanner v-if='isLoggedIn'/> -->
     <router-view/>
-    <HFooter></HFooter>
   </div>
 </template>
 
@@ -12,13 +11,11 @@
 import Navbar from '@/components/Nav.vue'
 import Loader from '@/components/Loader.vue'
 import router from './router'
-import HFooter from 'vue-hacktiv8-footer'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    HFooter,
     Loader
   },
   computed: {

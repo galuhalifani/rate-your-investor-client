@@ -61,21 +61,6 @@
                 <p class="card-text" :class="{'overflow-ellipsis-details': overflow}">{{reviewContent}}</p>
                 <a v-if='expandButton' href="#" style='margin-right: 15px' class="dropdown-toggle" @click.prevent='expandToggle'>{{expand}}</a>
                 <div style='margin-top:20px'>
-                <label style='color:darkblue'><b>Translate Review</b></label>
-                <form class='d-flex' @submit.prevent='translate'>
-                    <select name='trans_lang' v-model="trans_lang">
-                        <option value='' disable selected hidden>---Select Language---</option>
-                        <option value='en'>English</option>
-                        <option value='id'>Indonesia</option>
-                        <option value='it'>Italian</option>
-                        <option value='zh-CN'>Chinese</option>
-                        <option value='es'>Spanish</option>
-                        <option value='fr'>French</option>
-                        <option value='ja'>Japanese</option>
-                        <option value='de'>German</option>
-                    </select><br><br>
-                    <button class="confirmbtn" style=width:52% type="submit">Translate</button>
-                </form>
             </div>
             </div>
         </div>
@@ -273,7 +258,8 @@ export default {
     likeIcon () {
       let icon = this.tempIcon
 
-      for (let i = 0; i < this.reviewItem.likes_id.length; i++) {
+      const likesIDs = this.review.likes_id || []
+      for (let i = 0; i < likesIDs.length; i++) {
         if (localStorage.id == this.reviewItem.likes_id[i]) {
           icon = 'fas fa-thumbs-up'
         }

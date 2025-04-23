@@ -128,7 +128,8 @@ export default {
     likeIcon () {
       let icon = this.tempIcon
 
-      for (let i = 0; i < this.review.likes_id.length; i++) {
+      const likesIDs = this.review.likes_id || []
+      for (let i = 0; i < likesIDs.length; i++) {
         if (localStorage.id == this.review.likes_id[i]) {
           icon = 'fas fa-bookmark'
         }
